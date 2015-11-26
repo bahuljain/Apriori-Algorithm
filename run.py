@@ -12,10 +12,11 @@ class AprioriAlgorithm:
         self.totalCount = 1
         self.init()
         self.legend = self.makeLegend()
+        self.output = ''
 
     def makeLegend(self):
         legend = dict()
-        with open('Dataset/Legend.csv','rb') as fin:
+        with open('Legend.csv','rb') as fin:
             dr = csv.DictReader(fin)
             for row in dr:
                 if row['space_id']:
@@ -104,11 +105,15 @@ class AprioriAlgorithm:
         for a in large:
             m[tuple(a)] = self.getSupport(a)
 
-        print "Frequent Itemsets (Minimum Support: " + `self.minSupport` + ")"
+        self.output += "Frequent Itemsets (Minimum Support: " + `self.minSupport` + ")\n"
         for key in sorted(m, key=m.get, reverse=True):
-            print '[' + ', '.join(self.legend[item] for item in key) + ']: Support ->  ' + `m[key]*100` + '%'
-        print ''
+            self.output += '[' + ', '.join(self.legend[item] for item in key) + ']: Support ->  ' + `m[key]*100` + '%\n'
+        self.output += '\n'
         self.getAssociations(m)
+        print '\n' + self.output + '\n'
+        f = open('output.txt','w')
+        f.write(self.output)
+        f.close()
 
     def getAssociations(self, m):
         confDict = dict()
@@ -124,16 +129,36 @@ class AprioriAlgorithm:
                         rule += '[' + ', '.join(self.legend[x] for x in item) + "]"
                         confDict[rule] = conf
 
-        print "Association Rules (Minimum Confidence: " + `minConfidence` + ")"
+        self.output += "Association Rules (Minimum Confidence: " + `minConfidence` + ")\n"
         for key in sorted(confDict, key=confDict.get, reverse=True):
-            print key + ": Confidence - " + `confDict[key]*100` + '%'
+            self.output += key + ": Confidence - " + `confDict[key]*100` + '%\n'
+
+
+def create_table(conn):
+	conn.execute('''CREATE TABLE APRIORITEST4(space_id INT NOT NULL,type_id INT NOT NULL,category_id INT NOT NULL);''')
+	print "Table created successfully\n"
+
+def insert_from_csv(conn, fileName):
+	with open(fileName,'rb') as fin:
+		dr = csv.DictReader(fin)
+	 	to_db = [(i['space_id'],i['type_id'],i['category_id']) for i in dr]
+	conn.executemany("INSERT INTO APRIORITEST4 (space_id,type_id,category_id) VALUES (?, ?, ?);", to_db)
+	conn.commit()
+
+def delete_table(conn):
+    conn.execute("DROP TABLE IF EXISTS APRIORITEST4;")
+    print "Table deleted successfully\n"
 
 if __name__=="__main__":
-    fileName = raw_input('Enter File Name: ' or "Blah")
+    fileName = raw_input('Enter File Name (Integrated-Dataset.csv) : ') or "Integrated-Dataset.csv"
     minSupport = float(raw_input('Enter Minimum Support (0.05 by default) : ') or '0.05')
     minConfidence = float(raw_input('Enter Minimum Confidence (0.5 by default) : ') or '0.5')
 
     conn = sqlite3.connect('test.db')
+    # delete_table(conn)
+    create_table(conn)
+    insert_from_csv(conn, fileName)
     apriori = AprioriAlgorithm(minSupport, minConfidence, conn)
     apriori.apriori()
+    delete_table(conn)
     conn.close()

@@ -1,0 +1,35 @@
+Frequent Itemsets (Minimum Support: 0.07)
+[non emergency]: Support ->  51.593131047059416%
+[emergency]: Support ->  43.73638620130693%
+[entire apartment]: Support ->  27.065498201712174%
+[unsanitary condition]: Support ->  22.116407476824882%
+[bathroom]: Support ->  21.422420343447644%
+[paint/plaster]: Support ->  18.302011043006942%
+[non emergency, entire apartment]: Support ->  14.366040220860137%
+[kitchen]: Support ->  14.239400233017577%
+[non emergency, paint/plaster]: Support ->  12.522161997872447%
+[unsanitary condition, entire apartment]: Support ->  11.899093257687047%
+[non emergency, unsanitary condition]: Support ->  11.88389645914594%
+[emergency, entire apartment]: Support ->  11.61541968491971%
+[plumbing]: Support ->  11.352008510207183%
+[emergency, bathroom]: Support ->  10.860645357378045%
+[emergency, unsanitary condition]: Support ->  10.232511017678943%
+[bedroom]: Support ->  9.675295071171673%
+[non emergency, bathroom]: Support ->  9.199128716883644%
+[kitchen, non emergency]: Support ->  9.128210323691809%
+[door/window]: Support ->  8.636847170862671%
+[water leak]: Support ->  8.535535180588623%
+[unsanitary condition, non emergency, entire apartment]: Support ->  7.6085304695810745%
+[flooring/stairs]: Support ->  7.06144572210121%
+[electric]: Support ->  7.010789726964187%
+
+Association Rules (Minimum Confidence: 0.5)
+[paint/plaster] => [non emergency]: Confidence - 68.41959590368114%
+[kitchen] => [non emergency]: Confidence - 64.105300604767%
+[non emergency, unsanitary condition] => [entire apartment]: Confidence - 64.02387041773231%
+[unsanitary condition, entire apartment] => [non emergency]: Confidence - 63.94210302256279%
+[unsanitary condition] => [entire apartment]: Confidence - 53.80210719193771%
+[unsanitary condition] => [non emergency]: Confidence - 53.733394411360514%
+[entire apartment] => [non emergency]: Confidence - 53.078794684634104%
+[non emergency, entire apartment] => [unsanitary condition]: Confidence - 52.96191819464035%
+[bathroom] => [emergency]: Confidence - 50.69756443603689%
