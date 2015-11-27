@@ -11,7 +11,7 @@ class AprioriAlgorithm:
         self.cols = dict()
         self.totalCount = 1
         self.init()
-        self.legend = self.makeLegend()
+        # self.legend = self.makeLegend()
         self.output = ''
 
     def makeLegend(self):
@@ -107,7 +107,7 @@ class AprioriAlgorithm:
 
         self.output += "Frequent Itemsets (Minimum Support: " + `self.minSupport` + ")\n"
         for key in sorted(m, key=m.get, reverse=True):
-            self.output += '[' + ', '.join(self.legend[item] for item in key) + ']: Support ->  ' + `m[key]*100` + '%\n'
+            self.output += '[' + ', '.join(str(item) for item in key) + ']: Support ->  ' + `m[key]*100` + '%\n'
         self.output += '\n'
         self.getAssociations(m)
         print '\n' + self.output + '\n'
@@ -125,8 +125,8 @@ class AprioriAlgorithm:
                     diff = itemSet.difference(item)
                     conf = self.getSupport(itemSet)/self.getSupport(diff)
                     if conf >= self.minConfidence:
-                        rule = '[' + ', '.join(self.legend[x] for x in diff) + "] => "
-                        rule += '[' + ', '.join(self.legend[x] for x in item) + "]"
+                        rule = '[' + ', '.join(str(x) for x in diff) + "] => "
+                        rule += '[' + ', '.join(str(x) for x in item) + "]"
                         confDict[rule] = conf
 
         self.output += "Association Rules (Minimum Confidence: " + `minConfidence` + ")\n"
