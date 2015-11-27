@@ -1,0 +1,86 @@
+Enter File Name (Integrated-Dataset.csv by default) : Integrated-Dataset.csv
+Enter Minimum Support (0.05 by default) : 0.05
+Enter Minimum Confidence (0.5 by default) : 0.5
+
+Table deleted successfully if it ever existed..
+
+Table created successfully
+
+Loaded data in Table from CSV file
+
+Legend Created
+
+Initialization Complete...
+
+Total number of entries in Dataset: 852433.0
+
+---------------Generating Large Itemsets--------------------
+Generated 14 1-sized frequent itemsets
+Generated 15 2-sized frequent itemsets
+Generated 2 3-sized frequent itemsets
+
+Generated a total of 31 frequent itemsets...
+
+---------------Generating Association Rules-----------------
+Generated 17 association rules
+
+Apriori Algorithm Completed!!
+
+Table deleted successfully if it ever existed..
+
+Result stored in output.txt
+
+---------------Contents of output.txt-----------------------
+Frequent Itemsets (Minimum Support: 0.05)
+
+[type: emergency]: Support ->  61.23273031428863%
+[type: non emergency]: Support ->  35.02245924313113%
+[category: heat/hot water]: Support ->  31.899633167650716%
+[type: emergency, category: heat/hot water]: Support ->  31.709119661017347%
+[space: entire apartment]: Support ->  26.812195210649985%
+[space: building-wide]: Support ->  18.127055146856115%
+[type: emergency, space: entire apartment]: Support ->  17.055885917133665%
+[type: emergency, space: building-wide]: Support ->  16.992185896134945%
+[category: heat/hot water, space: building-wide]: Support ->  16.475429740519196%
+[type: emergency, category: heat/hot water, space: building-wide]: Support ->  16.432493814763156%
+[space: bathroom]: Support ->  15.298445742949887%
+[category: unsanitary condition]: Support ->  14.113367267574109%
+[category: paint/plaster]: Support ->  12.19556258380424%
+[space: kitchen]: Support ->  10.625116578077105%
+[category: heat/hot water, space: entire apartment]: Support ->  10.582180652321062%
+[type: emergency, category: heat/hot water, space: entire apartment]: Support ->  10.435541561624198%
+[category: plumbing]: Support ->  9.499514917887975%
+[type: non emergency, space: entire apartment]: Support ->  9.054787883622526%
+[type: non emergency, category: paint/plaster]: Support ->  8.325346390860044%
+[type: emergency, space: bathroom]: Support ->  7.9085394394632775%
+[type: non emergency, category: unsanitary condition]: Support ->  7.76671011094127%
+[space: bedroom]: Support ->  7.635438796949439%
+[category: unsanitary condition, space: entire apartment]: Support ->  6.979316849535389%
+[category: door/window]: Support ->  6.908108907092991%
+[space: kitchen, type: non emergency]: Support ->  6.562744520683737%
+[type: non emergency, space: bathroom]: Support ->  6.468308946274956%
+[type: emergency, category: unsanitary condition]: Support ->  6.346657156632839%
+[category: water leak]: Support ->  6.064758168677186%
+[type: emergency, category: plumbing]: Support ->  5.821337278120392%
+[category: plumbing, space: bathroom]: Support ->  5.183867823042984%
+[category: electric]: Support ->  5.093420831901159%
+
+Association Rules (Minimum Confidence: 0.5)
+
+[category: heat/hot water, space: building-wide] => [type: emergency]: Confidence - 99.73939419831675%
+[category: heat/hot water] => [type: emergency]: Confidence - 99.40277210828066%
+[category: heat/hot water, space: entire apartment] => [type: emergency]: Confidence - 98.61428286366761%
+[type: emergency, space: building-wide] => [category: heat/hot water]: Confidence - 96.70617962401707%
+[space: building-wide] => [type: emergency]: Confidence - 93.73936228732664%
+[space: building-wide] => [category: heat/hot water]: Confidence - 90.88861708117342%
+[category: paint/plaster] => [type: non emergency]: Confidence - 68.26537384930597%
+[space: entire apartment] => [type: emergency]: Confidence - 63.61241883827159%
+[space: kitchen] => [type: non emergency]: Confidence - 61.7663295499713%
+[category: plumbing] => [type: emergency]: Confidence - 61.28036356002322%
+[type: emergency, space: entire apartment] => [category: heat/hot water]: Confidence - 61.18440057775637%
+[category: unsanitary condition] => [type: non emergency]: Confidence - 55.030879333704604%
+[category: plumbing] => [space: bathroom]: Confidence - 54.56981612062685%
+[type: emergency, category: heat/hot water] => [space: building-wide]: Confidence - 51.82261125642344%
+[type: emergency] => [category: heat/hot water]: Confidence - 51.78459215890629%
+[space: bathroom] => [type: emergency]: Confidence - 51.69505172189035%
+[category: heat/hot water] => [space: building-wide]: Confidence - 51.647709094118554%

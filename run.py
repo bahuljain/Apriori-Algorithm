@@ -10,13 +10,13 @@ class AprioriAlgorithm:
         self.uniqueSets = collections.defaultdict(set)
         self.cols = dict()
         self.totalCount = 1
+        self.legend = self.makeLegend()
         self.init()
-        # self.legend = self.makeLegend()
         self.output = ''
 
     def makeLegend(self):
         legend = dict()
-        with open('Legend.csv','rb') as fin:
+        with open('Full-Legend.csv','rb') as fin:
             dr = csv.DictReader(fin)
             for row in dr:
                 if row['space_id']:
@@ -25,6 +25,7 @@ class AprioriAlgorithm:
                     legend[int(row['type_id'])] = row['type'].lower()
                 if row['category_id']:
                     legend[int(row['category_id'])] = row['category'].lower()
+        print "Legend Created\n"
         return legend
 
     def init(self):
@@ -38,6 +39,8 @@ class AprioriAlgorithm:
             self.cols[row[2]] = "category_id"
         cursor = self.conn.execute("SELECT COUNT(*) FROM APRIORITEST4")
         self.totalCount = float([row[0] for row in cursor][0])
+        print "Initialization Complete...\n"
+        print "Total number of entries in Dataset: " + `self.totalCount` + "\n"
 
 
     # Getting Support for a particular combination of entries
@@ -83,14 +86,16 @@ class AprioriAlgorithm:
 
         # Finding all the large frequency items
         L = [val for val in C if self.getSupport(val) >= self.minSupport]
-
+        print "Generated " + `len(L)` + " " + `len(L[0])` + "-sized frequent itemsets"
         return L
 
     def apriori(self):
+        print "---------------Generating Large Itemsets--------------------"
         large = list()
         C1 = reduce(lambda a,b:a.union(b), self.uniqueSets.values(), set())
         C1 = map(lambda a:set({a}), C1)
         L1 = [val for val in C1 if self.getSupport(val) >= self.minSupport]
+        print "Generated " + `len(L1)` + " 1-sized frequent itemsets"
         large = large + L1
 
         L = self.nextIteration(L1)
@@ -100,22 +105,24 @@ class AprioriAlgorithm:
         while len(L) > 0 and len(L[0]) < 3:
             L = self.nextIteration(L)
             large = large + L
+        print "\nGenerated a total of " + `len(large)` + " frequent itemsets...\n"
 
         m = dict()
         for a in large:
             m[tuple(a)] = self.getSupport(a)
 
-        self.output += "Frequent Itemsets (Minimum Support: " + `self.minSupport` + ")\n"
+        self.output += "Frequent Itemsets (Minimum Support: " + `self.minSupport` + ")\n\n"
         for key in sorted(m, key=m.get, reverse=True):
-            self.output += '[' + ', '.join(str(item) for item in key) + ']: Support ->  ' + `m[key]*100` + '%\n'
+            self.output += '[' + ', '.join(cleaner(self.cols[item]) + ": " + self.legend[item] for item in key) + ']: Support ->  ' + `m[key]*100` + '%\n'
         self.output += '\n'
         self.getAssociations(m)
-        print '\n' + self.output + '\n'
+        # print '\n' + self.output + '\n'
         f = open('output.txt','w')
         f.write(self.output)
         f.close()
 
     def getAssociations(self, m):
+        print "---------------Generating Association Rules-----------------"
         confDict = dict()
         for s in m:
             if len(s) > 1:
@@ -125,40 +132,47 @@ class AprioriAlgorithm:
                     diff = itemSet.difference(item)
                     conf = self.getSupport(itemSet)/self.getSupport(diff)
                     if conf >= self.minConfidence:
-                        rule = '[' + ', '.join(str(x) for x in diff) + "] => "
-                        rule += '[' + ', '.join(str(x) for x in item) + "]"
+                        rule = '[' + ', '.join(cleaner(self.cols[x]) + ": " + self.legend[x] for x in diff) + "] => "
+                        rule += '[' + ', '.join(cleaner(self.cols[x]) + ": " + self.legend[x] for x in item) + "]"
                         confDict[rule] = conf
 
-        self.output += "Association Rules (Minimum Confidence: " + `minConfidence` + ")\n"
+        self.output += "Association Rules (Minimum Confidence: " + `minConfidence` + ")\n\n"
         for key in sorted(confDict, key=confDict.get, reverse=True):
             self.output += key + ": Confidence - " + `confDict[key]*100` + '%\n'
+        print "Generated " + `len(confDict)` + " association rules\n"
 
+def cleaner(s):
+    return s[0:s.index('_')]
 
 def create_table(conn):
 	conn.execute('''CREATE TABLE APRIORITEST4(space_id INT NOT NULL,type_id INT NOT NULL,category_id INT NOT NULL);''')
 	print "Table created successfully\n"
 
 def insert_from_csv(conn, fileName):
-	with open(fileName,'rb') as fin:
-		dr = csv.DictReader(fin)
-	 	to_db = [(i['space_id'],i['type_id'],i['category_id']) for i in dr]
-	conn.executemany("INSERT INTO APRIORITEST4 (space_id,type_id,category_id) VALUES (?, ?, ?);", to_db)
-	conn.commit()
+    with open(fileName,'rb') as fin:
+    	dr = csv.DictReader(fin)
+     	to_db = [(i['space_id'],i['type_id'],i['category_id']) for i in dr]
+    conn.executemany("INSERT INTO APRIORITEST4 (space_id,type_id,category_id) VALUES (?, ?, ?);", to_db)
+    conn.commit()
+    print "Loaded data in Table from CSV file\n"
 
 def delete_table(conn):
     conn.execute("DROP TABLE IF EXISTS APRIORITEST4;")
-    print "Table deleted successfully\n"
+    print "\nTable deleted successfully if it ever existed..\n"
 
 if __name__=="__main__":
-    fileName = raw_input('Enter File Name (Integrated-Dataset.csv) : ') or "Integrated-Dataset.csv"
+    fileName = raw_input('Enter File Name (Integrated-Dataset.csv by default) : ') or "Integrated-Dataset.csv"
     minSupport = float(raw_input('Enter Minimum Support (0.05 by default) : ') or '0.05')
     minConfidence = float(raw_input('Enter Minimum Confidence (0.5 by default) : ') or '0.5')
 
     conn = sqlite3.connect('test.db')
-    # delete_table(conn)
+    delete_table(conn)
     create_table(conn)
     insert_from_csv(conn, fileName)
     apriori = AprioriAlgorithm(minSupport, minConfidence, conn)
     apriori.apriori()
+    print "Apriori Algorithm Completed!!"
     delete_table(conn)
     conn.close()
+    print "Result stored in output.txt"
+    # cleaner("category_id")
