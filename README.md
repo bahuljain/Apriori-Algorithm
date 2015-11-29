@@ -1,7 +1,8 @@
 # Apriori-ADB
-######Apriori Algorithm
+####Apriori Algorithm
 check readme.pdf
 
+####Example Run
 Enter File Name (Integrated-Dataset.csv by default) : Integrated-Dataset.csv <br />
 Enter Minimum Support (0.05 by default) : 0.05 <br />
 Enter Minimum Confidence (0.5 by default) : 0.5 <br />
@@ -18,14 +19,14 @@ Initialization Complete...
 
 Total number of entries in Dataset: 852433.0
 
----------------Generating Large Itemsets--------------------<br />
+#####---------------Generating Large Itemsets--------------------<br />
 Generated 14 1-sized frequent itemsets <br />
 Generated 15 2-sized frequent itemsets <br />
 Generated 2 3-sized frequent itemsets <br />
 
 Generated a total of 31 frequent itemsets...
 
----------------Generating Association Rules-----------------<br />
+#####---------------Generating Association Rules-----------------<br />
 Generated 17 association rules
 
 Apriori Algorithm Completed!!
@@ -34,8 +35,8 @@ Table deleted successfully if it ever existed..
 
 Result stored in output.txt
 
----------------Contents of output.txt-----------------------<br />
-Frequent Itemsets (Minimum Support: 0.05)
+#####---------------Contents of output.txt-----------------------<br />
+######Frequent Itemsets (Minimum Support: 0.05)
 
 [type: emergency]: Support ->  61.23273031428863%<br />
 [type: non emergency]: Support ->  35.02245924313113%<br />
@@ -69,7 +70,7 @@ Frequent Itemsets (Minimum Support: 0.05)
 [category: plumbing, space: bathroom]: Support ->  5.183867823042984%<br />
 [category: electric]: Support ->  5.093420831901159%<br />
 
-Association Rules (Minimum Confidence: 0.5)
+######Association Rules (Minimum Confidence: 0.5)
 
 [category: heat/hot water, space: building-wide] => [type: emergency]: Confidence - 99.73939419831675%<br />
 [category: heat/hot water] => [type: emergency]: Confidence - 99.40277210828066%<br />
