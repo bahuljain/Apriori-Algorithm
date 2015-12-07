@@ -1,6 +1,6 @@
 # Apriori-ADB
 ####Apriori Algorithm
-check readme.pdf
+check readme.pdf for working and explanation of the algorithm
 
 ####Example Run
 Enter File Name (Integrated-Dataset.csv by default) : Integrated-Dataset.csv <br />
