@@ -1,4 +1,4 @@
-# Apriori-ADB
+# Apriori Algorithm
 ####Apriori Algorithm
 check readme.pdf for working and explanation of the algorithm
 
